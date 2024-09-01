@@ -1,13 +1,13 @@
 import type { MetaFunction } from "@remix-run/react";
 import { Link } from "@remix-run/react";
-import { Card, CardContent } from "~/components/ui/card";
+import { Card, CardContent } from "@web/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "~/components/ui/carousel";
+} from "@web/components/ui/carousel";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Carousel View" }];
