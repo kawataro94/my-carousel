@@ -18,6 +18,14 @@ export default function Index() {
             Carousel View
           </Link>
         </li>
+        <li>
+          <Link
+            to="/slides/new"
+            className="no-underline hover:underline text-blue-600"
+          >
+            New Slide Upload
+          </Link>
+        </li>
       </ul>
     </div>
   );
