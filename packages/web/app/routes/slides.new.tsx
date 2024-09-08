@@ -40,7 +40,11 @@ export default function NewSlideUpload() {
       </Link>
       <div className="max-w-3xl m-auto w-full">
         <FormProvider {...form}>
-          <Form className="space-y-8">
+          <Form
+            action="http://localhost:8787/api/slides"
+            headers={{ "Content-Type": "application/json" }}
+            className="space-y-8"
+          >
             <FormField
               control={form.control}
               name="name"
