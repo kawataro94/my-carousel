@@ -10,7 +10,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 
-import { cn } from "@web/lib/utils";
+import { cn } from "@web/lib/shadcn";
 import { Label } from "@web/components/ui/label";
 
 type FormFieldContextValue<
