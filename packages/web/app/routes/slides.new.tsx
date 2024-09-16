@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@web/components/ui/form";
 import { Input } from "@web/components/ui/input";
+import { useToast } from "@web/hooks/use-toast";
 
 export const meta: MetaFunction = () => {
   return [{ title: "New Slide Upload" }];
@@ -32,6 +33,8 @@ export default function NewSlideUpload() {
     },
   });
 
+  const { toast } = useToast();
+
   return (
     <div className="flex flex-col h-dvh">
       <h1 className="font-bold">New Slide Upload</h1>
@@ -41,9 +44,35 @@ export default function NewSlideUpload() {
       <div className="max-w-3xl m-auto w-full">
         <FormProvider {...form}>
           <Form
-            action="http://localhost:8787/api/slides"
+            action={`${import.meta.env.VITE_API_URL}/slides`}
             headers={{ "Content-Type": "application/json" }}
             className="space-y-8"
+            onSubmit={({ data }) => {
+              console.log(data);
+            }}
+            onSuccess={async ({ response }) => {
+              const slide = await response.json();
+
+              toast({
+                description: (
+                  <div>
+                    Success:{" "}
+                    <Link
+                      to={`/slides/${slide.id}`}
+                      className="no-underline hover:underline text-blue-600"
+                    >
+                      {slide.name}
+                    </Link>
+                  </div>
+                ),
+              });
+            }}
+            onError={() => {
+              toast({
+                variant: "destructive",
+                description: "Error",
+              });
+            }}
           >
             <FormField
               control={form.control}

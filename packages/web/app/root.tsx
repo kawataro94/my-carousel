@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
   useRouteError,
 } from "@remix-run/react";
+import { Toaster } from "@web/components/ui/toaster";
 import "./tailwind.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -19,7 +20,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <main>{children}</main>
+        <Toaster />
         <ScrollRestoration />
         <Scripts />
       </body>

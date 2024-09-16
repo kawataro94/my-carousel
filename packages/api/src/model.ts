@@ -30,7 +30,7 @@ export function getSlide({ slideId }: { slideId: string }) {
 }
 export function createSlide({ slide }: { slide: Slide }) {
   return {
-    id: "cm0t7o4n80000lwx79m8wczfy",
-    name: "python",
+    id: "cm0t30v630000lwx7h37jgj0o",
+    name: "dog",
   };
 }
