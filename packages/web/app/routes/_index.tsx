@@ -20,6 +20,14 @@ export default function Index() {
         </li>
         <li>
           <Link
+            to="/slides"
+            className="no-underline hover:underline text-blue-600"
+          >
+            Slide List
+          </Link>
+        </li>
+        <li>
+          <Link
             to="/slides/new"
             className="no-underline hover:underline text-blue-600"
           >

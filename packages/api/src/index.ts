@@ -17,16 +17,16 @@ api.get("/slides", (c) => {
   return c.json({ slides });
 });
 
-api.get("/slides/:id", (c) => {
-  const id = c.req.param("id");
-  const slide = getSlide({ id });
-  return c.json({ slide });
+api.get("/slides/:slideId", (c) => {
+  const slideId = c.req.param("slideId");
+  const slide = getSlide({ slideId });
+  return c.json(slide);
 });
 
 api.post("/slides", async (c) => {
   const slide = await c.req.json<Slide>();
-  const ok = createSlide({ slide });
-  return c.json({ ok });
+  const newSlide = createSlide({ slide });
+  return c.json(newSlide);
 });
 
 app.route("/api", api);
