@@ -1,6 +1,4 @@
-export type Slide = { id: string; name: string };
-
-const slides = [
+const SLIDES = [
   {
     id: "cm0t30v630000lwx7h37jgj0o",
     name: "dog",
@@ -15,20 +13,23 @@ const slides = [
   },
 ];
 
+export type Slide = { id: string; name: string };
+
 export function getSlides({
   limit,
   offset,
 }: {
   limit: string;
   offset: string;
-}) {
-  return slides;
+}): Slide[] {
+  return SLIDES;
 }
 
-export function getSlide({ slideId }: { slideId: string }) {
-  return slides.find((slide) => slide.id === slideId);
+export function getSlide({ slideId }: { slideId: string }): Slide | undefined {
+  return SLIDES.find((slide) => slide.id === slideId);
 }
-export function createSlide({ slide }: { slide: Slide }) {
+
+export function createSlide({ slide }: { slide: Omit<Slide, "id"> }): Slide {
   return {
     id: "cm0t30v630000lwx7h37jgj0o",
     name: "dog",
