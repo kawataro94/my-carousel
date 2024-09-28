@@ -1,20 +1,20 @@
 import type { MetaFunction } from "@remix-run/react";
 import { Link } from "@remix-run/react";
-import { CarouselWithThumbnails } from "@web/components/ui/extended/carousel/carousel-with-thumbnails";
+import { HorizontalCarousel } from "@web/components/ui/extended/carousel/horizontal";
 
 export const meta: MetaFunction = () => {
-  return [{ title: "Carousel View" }];
+  return [{ title: "Horizontal Carousel View" }];
 };
 
-export default function CarouselView() {
+export default function HorizontalCarouselView() {
   return (
     <div className="flex flex-col h-dvh">
-      <h1 className="font-bold">Carousel View</h1>
+      <h1 className="font-bold">Horizontal Carousel View</h1>
       <Link to="/" className="no-underline hover:underline text-blue-600">
         Go to back
       </Link>
       <div className="max-w-3xl m-auto">
-        <CarouselWithThumbnails />
+        <HorizontalCarousel />
       </div>
     </div>
   );

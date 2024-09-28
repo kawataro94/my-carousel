@@ -12,7 +12,7 @@ import "./embla-carousel.css";
 const SLIDE_COUNT = 10;
 const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
-export function CarouselWithThumbnails() {
+export function HorizontalCarousel() {
   const { setEmblaMainApi, emblaThumbsRef, selectedIndex, onThumbClick } =
     useCarousel();
 

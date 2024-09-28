@@ -12,10 +12,18 @@ export default function Index() {
       <ul>
         <li>
           <Link
-            to="/carousel"
+            to="/carousel/horizontal"
             className="no-underline hover:underline text-blue-600"
           >
-            Carousel View
+            Horizontal Carousel View
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/carousel/vertical"
+            className="no-underline hover:underline text-blue-600"
+          >
+            Vertical Carousel View
           </Link>
         </li>
         <li>
