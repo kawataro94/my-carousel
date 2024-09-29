@@ -2,6 +2,8 @@ name = "api"
 compatibility_date = "2024-09-08"
 # compatibility_flags = [ "nodejs_compat" ]
 
+workers_dev = true
+
 # [vars]
 # MY_VAR = "my-variable"
 
@@ -9,9 +11,10 @@ compatibility_date = "2024-09-08"
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
+[[r2_buckets]]
+binding = 'R2_BUCKET_MY_CAROUSEL'
+bucket_name = 'my-carousel'
+preview_bucket_name = 'my-carousel'
 
 # [[d1_databases]]
 # binding = "DB"

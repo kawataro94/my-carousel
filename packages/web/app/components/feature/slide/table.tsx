@@ -7,10 +7,10 @@ import {
   TableHeader,
   TableRow,
 } from "@web/components/ui/table";
-import { useSlides } from "@web/lib/swr";
+import { useSlidesFetcher } from "@web/lib/fetch";
 
 export function SlideTable() {
-  const { data, error, isLoading } = useSlides();
+  const { data, error, isLoading } = useSlidesFetcher();
 
   if (error) {
     return <div>Error</div>;

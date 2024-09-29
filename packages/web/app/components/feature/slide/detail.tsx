@@ -4,20 +4,16 @@ import {
   DetailName,
   DetailValue,
 } from "@web/components/ui/detail";
-import { useSlide } from "@web/lib/swr";
 
-export function SlideDetail({ slideId }: { slideId: string }) {
-  const { data: slide, error, isLoading } = useSlide({ slideId });
-
-  if (error) {
-    console.error(error);
-    return <div>Error</div>;
-  }
-
-  if (slide == null || isLoading) {
-    return <div>Loading...</div>;
-  }
-
+export function SlideDetail({
+  slide,
+}: {
+  slide: {
+    id: string;
+    name: string;
+    fileNames: string[];
+  };
+}) {
   return (
     <Detail>
       <DetailList>
