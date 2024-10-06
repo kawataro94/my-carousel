@@ -9,7 +9,11 @@ import {
 } from "@web/components/ui/carousel";
 import { Image, Number } from "./content";
 
-export function VerticalCarousel({ slides }: { slides: number[] | string[] }) {
+export function VerticalCarousel({
+  slideContents,
+}: {
+  slideContents: number[] | string[];
+}) {
   const { setEmblaMainApi, emblaThumbsRef, selectedIndex, onThumbClick } =
     useCarousel();
 
@@ -20,7 +24,7 @@ export function VerticalCarousel({ slides }: { slides: number[] | string[] }) {
         ref={emblaThumbsRef}
       >
         <div className="flex flex-col gap-3">
-          {slides.map((slide, index) => (
+          {slideContents.map((slide, index) => (
             <Thumbnail
               key={slide}
               onClick={() => onThumbClick(index)}
@@ -30,7 +34,7 @@ export function VerticalCarousel({ slides }: { slides: number[] | string[] }) {
           ))}
         </div>
       </div>
-      <_Carousel setEmblaMainApi={setEmblaMainApi} slides={slides} />
+      <_Carousel setEmblaMainApi={setEmblaMainApi} slides={slideContents} />
     </div>
   );
 }
@@ -43,12 +47,16 @@ function _Carousel({
   slides: number[] | string[];
 }) {
   return (
-    <Carousel orientation="vertical" setApi={setEmblaMainApi}>
+    <Carousel
+      orientation="vertical"
+      setApi={setEmblaMainApi}
+      className="aspect-video"
+    >
       <CarouselContent className="h-[26rem]">
         {slides.map((slide) => (
           <CarouselItem key={slide}>
             <Card className="">
-              <CardContent className="flex aspect-video items-center justify-center min-h-96">
+              <CardContent className="p-0 flex aspect-video items-center justify-center min-h-96">
                 {typeof slide === "string" ? (
                   <Image slide={slide} selected={true} />
                 ) : (

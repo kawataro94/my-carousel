@@ -5,6 +5,15 @@ import { useSlideFetcher } from "@web/lib/fetch";
 import { validateCuid } from "@web/lib/zod";
 import { SlideDownloadButton } from "@web/components/feature/slide/download-button";
 import { HorizontalCarousel } from "@web/components/ui/extended/carousel/horizontal";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@web/components/ui/select";
+import React from "react";
+import { VerticalCarousel } from "@web/components/ui/extended/carousel/vertical";
 
 export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
   const slideId = validateCuid(params.slideId);
@@ -22,6 +31,8 @@ export default function _SlideDetail() {
   const { slideId } = useLoaderData<typeof clientLoader>();
 
   const { data: slide, error, isLoading } = useSlideFetcher({ slideId });
+
+  const [slideOrientation, setSlideOrientation] = React.useState("horizontal");
 
   if (error) {
     return <div>Error</div>;
@@ -41,14 +52,31 @@ export default function _SlideDetail() {
       <Link to="/" className="no-underline hover:underline text-blue-600">
         Go to back
       </Link>
-      <div className="my-auto">
-        <div className="max-w-3xl mx-auto flex flex-col gap-4">
-          <SlideDetail slide={slide} />
+      <div className="m-auto max-w-3xl grid gap-4">
+        <SlideDetail slide={slide} />
 
-          <HorizontalCarousel slideContents={slideContents} />
+        <div className="flex gap-4 justify-between">
+          <Select
+            defaultValue="horizontal"
+            onValueChange={(v) => setSlideOrientation(v)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="horizontal">Horizontal</SelectItem>
+              <SelectItem value="vertical">Vertical</SelectItem>
+            </SelectContent>
+          </Select>
 
           <SlideDownloadButton slide={slide} />
         </div>
+
+        {slideOrientation === "horizontal" ? (
+          <HorizontalCarousel slideContents={slideContents} />
+        ) : (
+          <VerticalCarousel slideContents={slideContents} />
+        )}
       </div>
     </div>
   );

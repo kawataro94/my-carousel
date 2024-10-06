@@ -17,7 +17,7 @@ export default function VerticalCarouselView() {
         Go to back
       </Link>
       <div className="m-auto">
-        <VerticalCarousel slides={slides} />
+        <VerticalCarousel slideContents={slides} />
       </div>
     </div>
   );
