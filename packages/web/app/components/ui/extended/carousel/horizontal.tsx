@@ -1,18 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { Card, CardContent } from "@web/components/ui/card";
+import { Card } from "@web/components/ui/card";
 import {
   Carousel,
   CarouselApi,
   CarouselContent,
   CarouselItem,
 } from "@web/components/ui/carousel";
+import { Image, Number } from "./content";
+
 import "./embla-carousel.css";
 
-const SLIDE_COUNT = 10;
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
-
-export function HorizontalCarousel() {
+export function HorizontalCarousel({
+  slideContents,
+}: {
+  slideContents: number[] | string[];
+}) {
   const { setEmblaMainApi, emblaThumbsRef, selectedIndex, onThumbClick } =
     useCarousel();
 
@@ -20,18 +23,18 @@ export function HorizontalCarousel() {
     <div className="embla">
       <div className="embla__viewport">
         <div className="embla__container">
-          <_Carousel setEmblaMainApi={setEmblaMainApi} />
+          <_Carousel setEmblaMainApi={setEmblaMainApi} slides={slideContents} />
         </div>
       </div>
       <div className="embla-thumbs">
         <div className="embla-thumbs__viewport" ref={emblaThumbsRef}>
           <div className="embla-thumbs__container">
-            {SLIDES.map((index) => (
+            {slideContents.map((s, index) => (
               <Thumbnail
-                key={index}
+                key={s}
                 onClick={() => onThumbClick(index)}
                 selected={index === selectedIndex}
-                index={index}
+                slide={s}
               />
             ))}
           </div>
@@ -43,8 +46,10 @@ export function HorizontalCarousel() {
 
 function _Carousel({
   setEmblaMainApi,
+  slides,
 }: {
   setEmblaMainApi: (api: CarouselApi) => void;
+  slides: number[] | string[];
 }) {
   return (
     <Carousel
@@ -55,12 +60,14 @@ function _Carousel({
       setApi={setEmblaMainApi}
     >
       <CarouselContent>
-        {Array.from({ length: SLIDE_COUNT }).map((_, index) => (
+        {slides.map((slide, index) => (
           <CarouselItem key={index} className="embla__slide">
             <Card>
-              <CardContent className="flex aspect-video items-center justify-center p-6">
-                <span className="text-3xl font-semibold">{index + 1}</span>
-              </CardContent>
+              {typeof slide === "string" ? (
+                <Image slide={slide} selected={true} />
+              ) : (
+                <Number slide={slide} selected={true} />
+              )}
             </Card>
           </CarouselItem>
         ))}
@@ -71,11 +78,11 @@ function _Carousel({
 
 function Thumbnail({
   selected,
-  index,
+  slide,
   onClick,
 }: {
   selected: boolean;
-  index: number;
+  slide: number | string;
   onClick: () => void;
 }) {
   return (
@@ -87,15 +94,11 @@ function Thumbnail({
       }`}
     >
       <Card>
-        <CardContent className="flex aspect-video items-center justify-center p-6">
-          <span
-            className={`text-3xl font-semibold ${
-              selected ? "" : "text-slate-400"
-            }`}
-          >
-            {index + 1}
-          </span>
-        </CardContent>
+        {typeof slide === "string" ? (
+          <Image slide={slide} selected={selected} />
+        ) : (
+          <Number slide={slide} selected={selected} />
+        )}
       </Card>
     </button>
   );

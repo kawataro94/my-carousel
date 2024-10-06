@@ -7,11 +7,9 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@web/components/ui/carousel";
+import { Image, Number } from "./content";
 
-const SLIDE_COUNT = 10;
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
-
-export function VerticalCarousel() {
+export function VerticalCarousel({ slides }: { slides: number[] | string[] }) {
   const { setEmblaMainApi, emblaThumbsRef, selectedIndex, onThumbClick } =
     useCarousel();
 
@@ -22,34 +20,40 @@ export function VerticalCarousel() {
         ref={emblaThumbsRef}
       >
         <div className="flex flex-col gap-3">
-          {SLIDES.map((index) => (
+          {slides.map((slide, index) => (
             <Thumbnail
-              key={index}
+              key={slide}
               onClick={() => onThumbClick(index)}
               selected={index === selectedIndex}
-              index={index}
+              slide={slide}
             />
           ))}
         </div>
       </div>
-      <_Carousel setEmblaMainApi={setEmblaMainApi} />
+      <_Carousel setEmblaMainApi={setEmblaMainApi} slides={slides} />
     </div>
   );
 }
 
 function _Carousel({
   setEmblaMainApi,
+  slides,
 }: {
   setEmblaMainApi: (api: CarouselApi) => void;
+  slides: number[] | string[];
 }) {
   return (
     <Carousel orientation="vertical" setApi={setEmblaMainApi}>
       <CarouselContent className="h-[26rem]">
-        {Array.from({ length: SLIDE_COUNT }).map((_, index) => (
-          <CarouselItem key={index}>
-            <Card>
-              <CardContent className="flex aspect-video items-center justify-center p-6 min-h-96">
-                <span className="text-3xl font-semibold">{index + 1}</span>
+        {slides.map((slide) => (
+          <CarouselItem key={slide}>
+            <Card className="">
+              <CardContent className="flex aspect-video items-center justify-center min-h-96">
+                {typeof slide === "string" ? (
+                  <Image slide={slide} selected={true} />
+                ) : (
+                  <Number slide={slide} selected={true} />
+                )}
               </CardContent>
             </Card>
           </CarouselItem>
@@ -60,25 +64,23 @@ function _Carousel({
 }
 
 function Thumbnail({
+  slide,
   selected,
-  index,
   onClick,
 }: {
+  slide: number | string;
   selected: boolean;
-  index: number;
   onClick: () => void;
 }) {
   return (
     <button onClick={onClick} type="button">
       <Card>
-        <CardContent className="flex aspect-video items-center justify-center p-6 aspect-video w-40">
-          <span
-            className={`text-3xl font-semibold ${
-              selected ? "" : "text-slate-400"
-            }`}
-          >
-            {index + 1}
-          </span>
+        <CardContent className="flex items-center items-center justify-center justify-center p-0 w-40">
+          {typeof slide === "string" ? (
+            <Image slide={slide} selected={selected} />
+          ) : (
+            <Number slide={slide} selected={selected} />
+          )}
         </CardContent>
       </Card>
     </button>
