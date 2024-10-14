@@ -1,3 +1,4 @@
+import { CardContent } from "@web/components/ui/card";
 export function Image({
   slide,
   selected,
@@ -6,7 +7,12 @@ export function Image({
   selected: boolean;
 }) {
   return (
-    <img className={`rounded-lg ${selected ? "" : "opacity-25"}`} src={slide} />
+    <CardContent className="flex aspect-video items-center justify-center p-0">
+      <img
+        className={`rounded-lg ${selected ? "" : "opacity-25"}`}
+        src={slide}
+      />
+    </CardContent>
   );
 }
 
@@ -18,12 +24,12 @@ export function Number({
   selected: boolean;
 }) {
   return (
-    <span
-      className={`p-6 text-3xl font-semibold ${
-        selected ? "" : "text-slate-400"
-      }`}
-    >
-      {slide + 1}
-    </span>
+    <CardContent className="flex aspect-video items-center justify-center p-6">
+      <span
+        className={`text-3xl font-semibold ${selected ? "" : "text-slate-400"}`}
+      >
+        {slide + 1}
+      </span>
+    </CardContent>
   );
 }

@@ -49,7 +49,7 @@ export default function _SlideDetail() {
   return (
     <div className="flex flex-col h-dvh">
       <h1 className="font-bold">Slide Detail</h1>
-      <Link to="/" className="no-underline hover:underline text-blue-600">
+      <Link to="/slides" className="no-underline hover:underline text-blue-600">
         Go to back
       </Link>
       <div className="m-auto max-w-3xl grid gap-4">
