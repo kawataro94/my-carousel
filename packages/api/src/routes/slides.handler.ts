@@ -13,9 +13,10 @@ import { env } from "hono/adapter";
 
 export const routeSlides = new OpenAPIHono();
 
-routeSlides.openapi(Get, (c) => {
+routeSlides.openapi(Get, async (c) => {
   const { limit, offset } = c.req.query();
-  const slides = getSlides({ limit, offset });
+  const { DB } = env<{ DB: D1Database }>(c);
+  const slides = await getSlides(DB, { limit, offset });
 
   return c.json({ slides }, 200);
 });
@@ -27,16 +28,18 @@ routeSlides.openapi(Post, async (c) => {
   return c.json(newSlide, 201);
 });
 
-routeSlides.openapi(GetSlide, (c) => {
+routeSlides.openapi(GetSlide, async (c) => {
   const { slideId } = c.req.param();
-  const slide = getSlide({ slideId });
+  const { DB } = env<{ DB: D1Database }>(c);
+  const slide = await getSlide(DB, { slideId });
 
   return c.json(slide, 200);
 });
 
 routeSlides.openapi(GetSlideDownload, async (c) => {
   const { slideId, fileName } = c.req.param();
-  const slide = getSlide({ slideId });
+  const { DB } = env<{ DB: D1Database }>(c);
+  const slide = await getSlide(DB, { slideId });
 
   if (slide == null) {
     return c.json({ message: "Slide not found" }, { status: 404 });

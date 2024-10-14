@@ -16,10 +16,10 @@ binding = 'R2_BUCKET_MY_CAROUSEL'
 bucket_name = 'my-carousel'
 preview_bucket_name = 'my-carousel'
 
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "my-database"
-# database_id = ""
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "my-carousel"
+database_id = "d911e4b0-8a8a-4314-b4d3-c81c49524cae"
 
 # [ai]
 # binding = "AI"

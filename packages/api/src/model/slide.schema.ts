@@ -23,5 +23,10 @@ export const Slide = z
     name: z.string().openapi({
       example: "dog",
     }),
+    urls: z.array(
+      z.string().openapi({
+        example: "https://example.com/dog.jpg",
+      })
+    ),
   })
   .openapi("Slide");
