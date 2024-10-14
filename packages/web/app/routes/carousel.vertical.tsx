@@ -6,9 +6,6 @@ export const meta: MetaFunction = () => {
   return [{ title: "Vertical Carousel View" }];
 };
 
-const SLIDE_COUNT = 10;
-const slides = Array.from(Array(SLIDE_COUNT).keys());
-
 export default function VerticalCarouselView() {
   return (
     <div className="flex flex-col h-dvh">
@@ -17,7 +14,7 @@ export default function VerticalCarouselView() {
         Go to back
       </Link>
       <div className="m-auto">
-        <VerticalCarousel slideContents={slides} />
+        <VerticalCarousel slides={Array.from(Array(10).keys())} />
       </div>
     </div>
   );

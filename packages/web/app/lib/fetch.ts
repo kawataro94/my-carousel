@@ -1,5 +1,4 @@
 import useSWR from "swr";
-import { cors } from "hono/cors";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -7,27 +6,31 @@ function fetcher<T>(endpoint: string) {
   return fetch(endpoint).then((res) => res.json() as Promise<T>);
 }
 
-export function useSlidesFetcher() {
+export function usePresentationsFetcher() {
   return useSWR<{
-    slides: { id: string; name: string; fileNames: string[] }[];
-  }>(`${baseUrl}/slides`, fetcher);
+    presentations: { id: string; name: string; fileNames: string[] }[];
+  }>(`${baseUrl}/presentations`, fetcher);
 }
 
-export function useSlideFetcher({ slideId }: { slideId: string }) {
+export function usePresentationFetcher({
+  presentationId,
+}: {
+  presentationId: string;
+}) {
   return useSWR<{ id: string; name: string; fileNames: string[] }>(
-    `${baseUrl}/slides/${slideId}`,
+    `${baseUrl}/presentations/${presentationId}`,
     fetcher
   );
 }
 
-export function downloadSlide({
-  slideId,
+export function downloadPresentation({
+  presentationId,
   fileName,
 }: {
-  slideId: string;
+  presentationId: string;
   fileName: string;
 }) {
-  return fetch(`${baseUrl}/slides/${slideId}/download/${fileName}`).then(
-    (response) => response.blob()
-  );
+  return fetch(
+    `${baseUrl}/presentations/${presentationId}/download/${fileName}`
+  ).then((response) => response.blob());
 }

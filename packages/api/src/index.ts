@@ -2,7 +2,7 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { swaggerUI } from "@hono/swagger-ui";
 import { cors } from "hono/cors";
 import { prettyJSON } from "hono/pretty-json";
-import { routeSlides } from "./routes/slides.handler";
+import { routePresentations } from "./routes/presentations.handler";
 
 const app = new OpenAPIHono();
 app.get("/", (c) => c.text("Hello Hono!"));
@@ -11,7 +11,7 @@ app.notFound((c) => c.json({ message: "Not Found", ok: false }, 404));
 
 const api = new OpenAPIHono();
 api.use("/*", cors());
-api.route("/slides", routeSlides);
+api.route("/presentations", routePresentations);
 
 app.route("/api", api);
 

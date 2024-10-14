@@ -5,10 +5,10 @@ import {
   DetailValue,
 } from "@web/components/ui/detail";
 
-export function SlideDetail({
-  slide,
+export function PresentationDetail({
+  presentation,
 }: {
-  slide: {
+  presentation: {
     id: string;
     name: string;
     fileNames: string[];
@@ -18,12 +18,12 @@ export function SlideDetail({
     <Detail>
       <DetailList>
         <DetailName>ID</DetailName>
-        <DetailValue>{slide.id}</DetailValue>
+        <DetailValue>{presentation.id}</DetailValue>
       </DetailList>
 
       <DetailList>
         <DetailName>Name</DetailName>
-        <DetailValue>{slide.name}</DetailValue>
+        <DetailValue>{presentation.name}</DetailValue>
       </DetailList>
     </Detail>
   );

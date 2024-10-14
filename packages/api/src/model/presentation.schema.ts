@@ -1,8 +1,8 @@
 import { z } from "@hono/zod-openapi";
 
-export const Slides = z
+export const Presentations = z
   .object({
-    slides: z
+    presentations: z
       .object({
         id: z.string().openapi({
           example: "cm14zryaf0000yg2b8hw7eg77",
@@ -13,9 +13,9 @@ export const Slides = z
       })
       .array(),
   })
-  .openapi("Slides");
+  .openapi("Presentations");
 
-export const Slide = z
+export const Presentation = z
   .object({
     id: z.string().openapi({
       example: "cm14zryaf0000yg2b8hw7eg77",
@@ -29,4 +29,4 @@ export const Slide = z
       })
     ),
   })
-  .openapi("Slide");
+  .openapi("Presentation");

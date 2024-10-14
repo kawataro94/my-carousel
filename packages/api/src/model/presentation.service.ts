@@ -1,6 +1,6 @@
-export type Slide = { id: string; name: string; fileNames: string[] };
+export type Presentation = { id: string; name: string; fileNames: string[] };
 
-export async function getSlides(
+export async function getPresentations(
   db: D1Database,
   {
     limit = "10",
@@ -9,33 +9,33 @@ export async function getSlides(
     limit?: string;
     offset?: string;
   }
-): Promise<Omit<Slide, "fileNames">[]> {
+): Promise<Omit<Presentation, "fileNames">[]> {
   const { results } = await db
     .prepare("SELECT * FROM Presentations LIMIT ? OFFSET ?")
     .bind(limit, offset)
-    .all<Omit<Slide, "fileNames">>();
+    .all<Omit<Presentation, "fileNames">>();
 
   return results;
 }
 
-export async function getSlide(
+export async function getPresentation(
   db: D1Database,
   {
-    slideId,
+    presentationId,
   }: {
-    slideId: string;
+    presentationId: string;
   }
-): Promise<Slide | undefined> {
+): Promise<Presentation | undefined> {
   const { results: results1 } = await db
     .prepare("SELECT * FROM Presentations WHERE Presentations.id = ?")
-    .bind(slideId)
+    .bind(presentationId)
     .all<{ id: string; name: string }>();
 
   const { results: results2 } = await db
     .prepare(
       "SELECT Photos.url FROM Presentations LEFT JOIN Photos ON Presentations.id = Photos.presentation_id WHERE Presentations.id = ?"
     )
-    .bind(slideId)
+    .bind(presentationId)
     .all<{ url: string }>();
 
   const presentation = results1.at(0);
@@ -49,11 +49,11 @@ export async function getSlide(
   };
 }
 
-export function createSlide({
-  slide,
+export function createPresentation({
+  presentation,
 }: {
-  slide: Omit<Slide, "id" | "fileNames">;
-}): Omit<Slide, "fileNames"> {
+  presentation: Omit<Presentation, "id" | "fileNames">;
+}): Omit<Presentation, "fileNames"> {
   return {
     id: "cm0t30v630000lwx7h37jgj0o",
     name: "dog",

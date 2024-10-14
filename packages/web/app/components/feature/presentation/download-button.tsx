@@ -1,10 +1,10 @@
 import { Button } from "@web/components/ui/button";
-import { downloadSlide } from "@web/lib/fetch";
+import { downloadPresentation } from "@web/lib/fetch";
 
-export function SlideDownloadButton({
-  slide,
+export function PresentationDownloadButton({
+  presentation,
 }: {
-  slide: {
+  presentation: {
     id: string;
     name: string;
     fileNames: string[];
@@ -12,9 +12,12 @@ export function SlideDownloadButton({
 }) {
   function download() {
     Promise.all(
-      slide.fileNames.map(async (fileName) => ({
+      presentation.fileNames.map(async (fileName) => ({
         fileName,
-        blob: await downloadSlide({ slideId: slide.id, fileName }),
+        blob: await downloadPresentation({
+          presentationId: presentation.id,
+          fileName,
+        }),
       }))
     ).then((res) => {
       for (const r of res) {

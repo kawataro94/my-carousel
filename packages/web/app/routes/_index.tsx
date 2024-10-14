@@ -28,18 +28,18 @@ export default function Index() {
         </li>
         <li>
           <Link
-            to="/slides"
+            to="/presentations"
             className="no-underline hover:underline text-blue-600"
           >
-            Slide List
+            Presentation List
           </Link>
         </li>
         <li>
           <Link
-            to="/slides/new"
+            to="/presentations/new"
             className="no-underline hover:underline text-blue-600"
           >
-            New Slide Upload
+            New Presentation Upload
           </Link>
         </li>
       </ul>

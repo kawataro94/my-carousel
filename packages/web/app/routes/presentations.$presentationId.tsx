@@ -1,9 +1,9 @@
 import type { ClientLoaderFunctionArgs, MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
-import { SlideDetail } from "@web/components/feature/slide/detail";
-import { useSlideFetcher } from "@web/lib/fetch";
+import { PresentationDetail } from "@web/components/feature/presentation/detail";
+import { usePresentationFetcher } from "@web/lib/fetch";
 import { validateCuid } from "@web/lib/zod";
-import { SlideDownloadButton } from "@web/components/feature/slide/download-button";
+import { PresentationDownloadButton } from "@web/components/feature/presentation/download-button";
 import { HorizontalCarousel } from "@web/components/ui/extended/carousel/horizontal";
 import {
   Select,
@@ -16,49 +16,56 @@ import React from "react";
 import { VerticalCarousel } from "@web/components/ui/extended/carousel/vertical";
 
 export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
-  const slideId = validateCuid(params.slideId);
+  const presentationId = validateCuid(params.presentationId);
 
-  return { slideId };
+  return { presentationId };
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: "Slide List" }];
+  return [{ title: "Presentation List" }];
 };
 
 const imageUrl = import.meta.env.VITE_IMAGE_URL;
 
-export default function _SlideDetail() {
-  const { slideId } = useLoaderData<typeof clientLoader>();
+export default function _PresentationDetail() {
+  const { presentationId } = useLoaderData<typeof clientLoader>();
 
-  const { data: slide, error, isLoading } = useSlideFetcher({ slideId });
+  const {
+    data: presentation,
+    error,
+    isLoading,
+  } = usePresentationFetcher({ presentationId });
 
-  const [slideOrientation, setSlideOrientation] = React.useState("horizontal");
+  const [orientation, setOrientation] = React.useState("horizontal");
 
   if (error) {
     return <div>Error</div>;
   }
 
-  if (slide == null || isLoading) {
+  if (presentation == null || isLoading) {
     return <div>Loading...</div>;
   }
 
-  const slideContents = slide.fileNames.map(
-    (fileName) => `${imageUrl}/${slide.name}/${fileName}`
+  const slides = presentation.fileNames.map(
+    (fileName) => `${imageUrl}/${presentation.name}/${fileName}`
   );
 
   return (
     <div className="flex flex-col h-dvh">
-      <h1 className="font-bold">Slide Detail</h1>
-      <Link to="/slides" className="no-underline hover:underline text-blue-600">
+      <h1 className="font-bold">Presentation Detail</h1>
+      <Link
+        to="/presentations"
+        className="no-underline hover:underline text-blue-600"
+      >
         Go to back
       </Link>
       <div className="m-auto max-w-3xl grid gap-4">
-        <SlideDetail slide={slide} />
+        <PresentationDetail presentation={presentation} />
 
         <div className="flex gap-4 justify-between">
           <Select
             defaultValue="horizontal"
-            onValueChange={(v) => setSlideOrientation(v)}
+            onValueChange={(v) => setOrientation(v)}
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue />
@@ -69,13 +76,13 @@ export default function _SlideDetail() {
             </SelectContent>
           </Select>
 
-          <SlideDownloadButton slide={slide} />
+          <PresentationDownloadButton presentation={presentation} />
         </div>
 
-        {slideOrientation === "horizontal" ? (
-          <HorizontalCarousel slideContents={slideContents} />
+        {orientation === "horizontal" ? (
+          <HorizontalCarousel slides={slides} />
         ) : (
-          <VerticalCarousel slideContents={slideContents} />
+          <VerticalCarousel slides={slides} />
         )}
       </div>
     </div>

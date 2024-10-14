@@ -18,14 +18,14 @@ import { Input } from "@web/components/ui/input";
 import { useToast } from "@web/hooks/use-toast";
 
 export const meta: MetaFunction = () => {
-  return [{ title: "New Slide Upload" }];
+  return [{ title: "New Presentation Upload" }];
 };
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
 });
 
-export default function NewSlideUpload() {
+export default function NewPresentationUpload() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,31 +37,31 @@ export default function NewSlideUpload() {
 
   return (
     <div className="flex flex-col h-dvh">
-      <h1 className="font-bold">New Slide Upload</h1>
+      <h1 className="font-bold">New Presentation Upload</h1>
       <Link to="/" className="no-underline hover:underline text-blue-600">
         Go to back
       </Link>
       <div className="max-w-3xl m-auto w-full">
         <FormProvider {...form}>
           <Form
-            action={`${import.meta.env.VITE_API_URL}/slides`}
+            action={`${import.meta.env.VITE_API_URL}/presentations`}
             headers={{ "Content-Type": "application/json" }}
             className="space-y-8"
             onSubmit={({ data }) => {
               console.log(data);
             }}
             onSuccess={async ({ response }) => {
-              const slide = await response.json();
+              const presentation = await response.json();
 
               toast({
                 description: (
                   <div>
                     Success:{" "}
                     <Link
-                      to={`/slides/${slide.id}`}
+                      to={`/presentations/${presentation.id}`}
                       className="no-underline hover:underline text-blue-600"
                     >
-                      {slide.name}
+                      {presentation.name}
                     </Link>
                   </div>
                 ),
@@ -79,7 +79,7 @@ export default function NewSlideUpload() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Slide Name</FormLabel>
+                  <FormLabel>Presentation Name</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

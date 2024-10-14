@@ -25,10 +25,10 @@ const Response201 = {
             example: "dog",
           }),
         })
-        .openapi("Slide"),
+        .openapi("Presentation"),
     },
   },
-  description: "create new slide",
+  description: "create new presentation",
 };
 
 export const Post = createRoute({

@@ -7,10 +7,10 @@ import {
   TableHeader,
   TableRow,
 } from "@web/components/ui/table";
-import { useSlidesFetcher } from "@web/lib/fetch";
+import { usePresentationsFetcher } from "@web/lib/fetch";
 
-export function SlideTable() {
-  const { data, error, isLoading } = useSlidesFetcher();
+export function PresentationTable() {
+  const { data, error, isLoading } = usePresentationsFetcher();
 
   if (error) {
     return <div>Error</div>;
@@ -31,13 +31,13 @@ export function SlideTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.slides.map((slide) => (
-            <TableRow key={slide.name}>
-              <TableCell className="font-medium">{slide.id}</TableCell>
-              <TableCell>{slide.name}</TableCell>
+          {data.presentations.map((presentation) => (
+            <TableRow key={presentation.name}>
+              <TableCell className="font-medium">{presentation.id}</TableCell>
+              <TableCell>{presentation.name}</TableCell>
               <TableCell>
                 <Link
-                  to={`/slides/${slide.id}`}
+                  to={`/presentations/${presentation.id}`}
                   className="no-underline hover:underline text-blue-600"
                 >
                   Link

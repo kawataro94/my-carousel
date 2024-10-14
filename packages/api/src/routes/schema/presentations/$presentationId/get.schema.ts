@@ -1,13 +1,13 @@
 import { createRoute, z } from "@hono/zod-openapi";
-import { Slide } from "@api/model/slide.schema";
+import { Presentation } from "@api/model/presentation.schema";
 
 const Params = z.object({
-  slideId: z
+  presentationsId: z
     .string()
     .cuid()
     .openapi({
       param: {
-        name: "slideId",
+        name: "presentationsId",
         in: "path",
       },
       example: "cm153pzw40000yg2b2ngs618d",
@@ -17,15 +17,15 @@ const Params = z.object({
 const Response200 = {
   content: {
     "application/json": {
-      schema: Slide,
+      schema: Presentation,
     },
   },
-  description: "get the slide",
+  description: "get the presentations",
 };
 
-export const GetSlide = createRoute({
+export const GetPresentation = createRoute({
   method: "get",
-  path: "/{slideId}",
+  path: "/{presentationId}",
   request: {
     params: Params,
   },

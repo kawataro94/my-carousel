@@ -12,9 +12,9 @@ import { Image, Number } from "./content";
 import "./embla-carousel.css";
 
 export function HorizontalCarousel({
-  slideContents,
+  slides,
 }: {
-  slideContents: number[] | string[];
+  slides: number[] | string[];
 }) {
   const { setEmblaMainApi, emblaThumbsRef, selectedIndex, onThumbClick } =
     useCarousel();
@@ -23,13 +23,13 @@ export function HorizontalCarousel({
     <div className="embla">
       <div className="embla__viewport">
         <div className="embla__container">
-          <_Carousel setEmblaMainApi={setEmblaMainApi} slides={slideContents} />
+          <_Carousel setEmblaMainApi={setEmblaMainApi} slides={slides} />
         </div>
       </div>
       <div className="embla-thumbs">
         <div className="embla-thumbs__viewport" ref={emblaThumbsRef}>
           <div className="embla-thumbs__container">
-            {slideContents.map((s, index) => (
+            {slides.map((s, index) => (
               <Thumbnail
                 key={s}
                 onClick={() => onThumbClick(index)}
@@ -64,9 +64,9 @@ function _Carousel({
           <CarouselItem key={index} className="embla__slide">
             <Card>
               {typeof slide === "string" ? (
-                <Image slide={slide} selected={true} />
+                <Image src={slide} selected={true} />
               ) : (
-                <Number slide={slide} selected={true} />
+                <Number value={slide} selected={true} />
               )}
             </Card>
           </CarouselItem>
@@ -95,9 +95,9 @@ function Thumbnail({
     >
       <Card>
         {typeof slide === "string" ? (
-          <Image slide={slide} selected={selected} />
+          <Image src={slide} selected={selected} />
         ) : (
-          <Number slide={slide} selected={selected} />
+          <Number value={slide} selected={selected} />
         )}
       </Card>
     </button>

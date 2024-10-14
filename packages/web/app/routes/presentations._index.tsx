@@ -1,20 +1,20 @@
 import type { MetaFunction } from "@remix-run/react";
 import { Link } from "@remix-run/react";
-import { SlideTable } from "@web/components/feature/slide/table";
+import { PresentationTable } from "@web/components/feature/presentation/table";
 
 export const meta: MetaFunction = () => {
-  return [{ title: "Slide List" }];
+  return [{ title: "Presentation List" }];
 };
 
-export default function SlideList() {
+export default function PresentationList() {
   return (
     <div className="flex flex-col h-dvh">
-      <h1 className="font-bold">Slide List</h1>
+      <h1 className="font-bold">Presentation List</h1>
       <Link to="/" className="no-underline hover:underline text-blue-600">
         Go to back
       </Link>
       <div className="max-w-3xl m-auto">
-        <SlideTable />
+        <PresentationTable />
       </div>
     </div>
   );

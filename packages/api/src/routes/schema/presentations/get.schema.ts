@@ -1,5 +1,5 @@
 import { createRoute, z } from "@hono/zod-openapi";
-import { Slides } from "@api/model/slide.schema";
+import { Presentations } from "@api/model/presentation.schema";
 
 const RequestQuery = z.object({
   limit: z
@@ -29,10 +29,10 @@ const RequestQuery = z.object({
 const Response200 = {
   content: {
     "application/json": {
-      schema: Slides,
+      schema: Presentations,
     },
   },
-  description: "get the slides",
+  description: "get the presentations",
 };
 
 export const Get = createRoute({

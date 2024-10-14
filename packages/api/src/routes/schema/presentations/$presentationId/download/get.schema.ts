@@ -2,12 +2,12 @@ import { createRoute } from "@hono/zod-openapi";
 
 const Response200 = {
   mediaType: "application/octet-stream",
-  description: "download the slide",
+  description: "download the presentationId",
 };
 
-export const GetSlideDownload = createRoute({
+export const GetPresentationDownload = createRoute({
   method: "get",
-  path: "/{slideId}/download/{fileName}",
+  path: "/{presentationId}/download/{fileName}",
   responses: {
     200: Response200,
   },

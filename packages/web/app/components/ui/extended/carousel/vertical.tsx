@@ -9,11 +9,7 @@ import {
 } from "@web/components/ui/carousel";
 import { Image, Number } from "./content";
 
-export function VerticalCarousel({
-  slideContents,
-}: {
-  slideContents: number[] | string[];
-}) {
+export function VerticalCarousel({ slides }: { slides: number[] | string[] }) {
   const { setEmblaMainApi, emblaThumbsRef, selectedIndex, onThumbClick } =
     useCarousel();
 
@@ -24,7 +20,7 @@ export function VerticalCarousel({
         ref={emblaThumbsRef}
       >
         <div className="flex flex-col gap-3">
-          {slideContents.map((slide, index) => (
+          {slides.map((slide, index) => (
             <Thumbnail
               key={slide}
               onClick={() => onThumbClick(index)}
@@ -34,7 +30,7 @@ export function VerticalCarousel({
           ))}
         </div>
       </div>
-      <_Carousel setEmblaMainApi={setEmblaMainApi} slides={slideContents} />
+      <_Carousel setEmblaMainApi={setEmblaMainApi} slides={slides} />
     </div>
   );
 }
@@ -58,9 +54,9 @@ function _Carousel({
             <Card className="">
               <CardContent className="p-0 flex aspect-video items-center justify-center min-h-96">
                 {typeof slide === "string" ? (
-                  <Image slide={slide} selected={true} />
+                  <Image src={slide} selected={true} />
                 ) : (
-                  <Number slide={slide} selected={true} />
+                  <Number value={slide} selected={true} />
                 )}
               </CardContent>
             </Card>
@@ -85,9 +81,9 @@ function Thumbnail({
       <Card>
         <CardContent className="flex items-center items-center justify-center justify-center p-0 w-40">
           {typeof slide === "string" ? (
-            <Image slide={slide} selected={selected} />
+            <Image src={slide} selected={selected} />
           ) : (
-            <Number slide={slide} selected={selected} />
+            <Number value={slide} selected={selected} />
           )}
         </CardContent>
       </Card>
