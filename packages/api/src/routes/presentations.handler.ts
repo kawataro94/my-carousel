@@ -14,7 +14,7 @@ import { env } from "hono/adapter";
 export const routePresentations = new OpenAPIHono();
 
 routePresentations.openapi(Get, async (c) => {
-  const { limit, offset } = c.req.query();
+  const { limit, offset } = c.req.valid("query");
   const { DB } = env<{ DB: D1Database }>(c);
   const presentations = await getPresentations(DB, { limit, offset });
 
@@ -29,7 +29,7 @@ routePresentations.openapi(Post, async (c) => {
 });
 
 routePresentations.openapi(GetPresentation, async (c) => {
-  const { presentationId } = c.req.param();
+  const { presentationId } = c.req.valid("param");
   const { DB } = env<{ DB: D1Database }>(c);
   const presentation = await getPresentation(DB, { presentationId });
 

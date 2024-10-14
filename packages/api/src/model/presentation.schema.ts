@@ -23,10 +23,11 @@ export const Presentation = z
     name: z.string().openapi({
       example: "dog",
     }),
-    urls: z.array(
-      z.string().openapi({
+    urls: z
+      .string()
+      .openapi({
         example: "https://example.com/dog.jpg",
       })
-    ),
+      .array(),
   })
   .openapi("Presentation");

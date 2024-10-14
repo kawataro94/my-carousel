@@ -16,16 +16,14 @@ const RequestBody = {
 const Response201 = {
   content: {
     "application/json": {
-      schema: z
-        .object({
-          id: z.string().openapi({
-            example: "cm14zryaf0000yg2b8hw7eg77",
-          }),
-          name: z.string().openapi({
-            example: "dog",
-          }),
-        })
-        .openapi("Presentation"),
+      schema: z.object({
+        id: z.string().openapi({
+          example: "cm14zryaf0000yg2b8hw7eg77",
+        }),
+        name: z.string().openapi({
+          example: "dog",
+        }),
+      }),
     },
   },
   description: "create new presentation",

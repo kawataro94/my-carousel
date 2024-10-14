@@ -3,11 +3,11 @@ export type Presentation = { id: string; name: string; fileNames: string[] };
 export async function getPresentations(
   db: D1Database,
   {
-    limit = "10",
-    offset = "0",
+    limit = 10,
+    offset = 0,
   }: {
-    limit?: string;
-    offset?: string;
+    limit?: number;
+    offset?: number;
   }
 ): Promise<Omit<Presentation, "fileNames">[]> {
   const { results } = await db

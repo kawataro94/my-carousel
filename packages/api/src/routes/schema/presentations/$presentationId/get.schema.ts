@@ -1,13 +1,13 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import { Presentation } from "@api/model/presentation.schema";
 
-const Params = z.object({
-  presentationsId: z
+const RequestParams = z.object({
+  presentationId: z
     .string()
     .cuid()
     .openapi({
       param: {
-        name: "presentationsId",
+        name: "presentationId",
         in: "path",
       },
       example: "cm153pzw40000yg2b2ngs618d",
@@ -27,7 +27,7 @@ export const GetPresentation = createRoute({
   method: "get",
   path: "/{presentationId}",
   request: {
-    params: Params,
+    params: RequestParams,
   },
   responses: {
     200: Response200,
