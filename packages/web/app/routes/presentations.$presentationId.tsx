@@ -50,6 +50,8 @@ export default function _PresentationDetail() {
     (fileName) => `${imageUrl}/${presentation.name}/${fileName}`
   );
 
+  const hasSlides = slides.length > 0;
+
   return (
     <div className="flex flex-col h-dvh">
       <h1 className="font-bold">Presentation Detail</h1>
@@ -59,30 +61,34 @@ export default function _PresentationDetail() {
       >
         Go to back
       </Link>
-      <div className="m-auto max-w-3xl grid gap-4">
+      <div className="m-auto max-w-3xl w-4/5 grid gap-4">
         <PresentationDetail presentation={presentation} />
 
-        <div className="flex gap-4 justify-between">
-          <Select
-            defaultValue="horizontal"
-            onValueChange={(v) => setOrientation(v)}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="horizontal">Horizontal</SelectItem>
-              <SelectItem value="vertical">Vertical</SelectItem>
-            </SelectContent>
-          </Select>
+        {!hasSlides ? null : (
+          <>
+            <div className="flex justify-between">
+              <Select
+                defaultValue="horizontal"
+                onValueChange={(v) => setOrientation(v)}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="horizontal">Horizontal</SelectItem>
+                  <SelectItem value="vertical">Vertical</SelectItem>
+                </SelectContent>
+              </Select>
 
-          <PresentationDownloadButton presentation={presentation} />
-        </div>
+              <PresentationDownloadButton presentation={presentation} />
+            </div>
 
-        {orientation === "horizontal" ? (
-          <HorizontalCarousel slides={slides} />
-        ) : (
-          <VerticalCarousel slides={slides} />
+            {orientation === "horizontal" ? (
+              <HorizontalCarousel slides={slides} />
+            ) : (
+              <VerticalCarousel slides={slides} />
+            )}
+          </>
         )}
       </div>
     </div>

@@ -1,4 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
+import { env } from "hono/adapter";
+import { createId } from "@paralleldrive/cuid2";
 import {
   getPresentations,
   getPresentation,
@@ -9,7 +11,6 @@ import { Get } from "./schema/presentations/get.schema";
 import { Post } from "./schema/presentations/post.schema";
 import { GetPresentation } from "./schema/presentations/$presentationId/get.schema";
 import { GetPresentationDownload } from "./schema/presentations/$presentationId/download/get.schema";
-import { env } from "hono/adapter";
 
 export const routePresentations = new OpenAPIHono();
 
@@ -22,10 +23,14 @@ routePresentations.openapi(Get, async (c) => {
 });
 
 routePresentations.openapi(Post, async (c) => {
-  const presentation = await c.req.json<Omit<Presentation, "id">>();
-  const newPresentations = createPresentation({ presentation });
+  const body = await c.req.json<Omit<Presentation, "id">>();
+  const { DB } = env<{ DB: D1Database }>(c);
 
-  return c.json(newPresentations, 201);
+  const presentation = { id: createId(), name: body.name };
+
+  await createPresentation(DB, presentation);
+
+  return c.json(presentation, 201);
 });
 
 routePresentations.openapi(GetPresentation, async (c) => {

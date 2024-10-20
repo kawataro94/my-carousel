@@ -33,7 +33,7 @@ export async function getPresentation(
 
   const { results: results2 } = await db
     .prepare(
-      "SELECT Photos.url FROM Presentations LEFT JOIN Photos ON Presentations.id = Photos.presentation_id WHERE Presentations.id = ?"
+      "SELECT Photos.url FROM Presentations INNER JOIN Photos ON Presentations.id = Photos.presentation_id WHERE Presentations.id = ?"
     )
     .bind(presentationId)
     .all<{ url: string }>();
@@ -45,17 +45,22 @@ export async function getPresentation(
   return {
     id: presentation.id,
     name: presentation.name,
-    fileNames: results2.map((r) => r.url),
+    fileNames: results2 ? results2.map((r) => r.url) : [],
   };
 }
 
-export function createPresentation({
-  presentation,
-}: {
-  presentation: Omit<Presentation, "id" | "fileNames">;
-}): Omit<Presentation, "fileNames"> {
-  return {
-    id: "cm0t30v630000lwx7h37jgj0o",
-    name: "dog",
-  };
+export async function createPresentation(
+  db: D1Database,
+  {
+    id,
+    name,
+  }: {
+    id: string;
+    name: string;
+  }
+): Promise<void> {
+  await db
+    .prepare("INSERT INTO Presentations (id, name) VALUES (?1, ?2)")
+    .bind(id, name)
+    .run();
 }

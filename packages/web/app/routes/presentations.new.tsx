@@ -43,13 +43,10 @@ export default function NewPresentationUpload() {
       </Link>
       <div className="max-w-3xl m-auto w-full">
         <FormProvider {...form}>
-          <Form
+          <Form<{ name: string }>
             action={`${import.meta.env.VITE_API_URL}/presentations`}
             headers={{ "Content-Type": "application/json" }}
             className="space-y-8"
-            onSubmit={({ data }) => {
-              console.log(data);
-            }}
             onSuccess={async ({ response }) => {
               const presentation = await response.json();
 

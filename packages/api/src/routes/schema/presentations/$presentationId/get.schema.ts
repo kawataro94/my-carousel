@@ -4,7 +4,7 @@ import { Presentation } from "@api/model/presentation.schema";
 const RequestParams = z.object({
   presentationId: z
     .string()
-    .cuid()
+    .cuid2()
     .openapi({
       param: {
         name: "presentationId",
