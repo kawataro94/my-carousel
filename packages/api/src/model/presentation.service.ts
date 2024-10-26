@@ -33,7 +33,7 @@ export async function getPresentation(
 
   const { results: results2 } = await db
     .prepare(
-      "SELECT Photos.url FROM Presentations INNER JOIN Photos ON Presentations.id = Photos.presentation_id WHERE Presentations.id = ?"
+      "SELECT Slides.url FROM Presentations INNER JOIN Slides ON Presentations.id = Slides.presentation_id WHERE Presentations.id = ?"
     )
     .bind(presentationId)
     .all<{ url: string }>();

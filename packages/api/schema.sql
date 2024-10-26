@@ -9,17 +9,17 @@ VALUES
     ("cm28c6x4600008zx7adxj7hkp", 'cat'),
     ("cm28c77oq00008zx7eulb5ve3", 'bird');
 
-DROP TABLE IF EXISTS Photos;
+DROP TABLE IF EXISTS Slides;
 
-CREATE TABLE IF NOT EXISTS Photos (
+CREATE TABLE IF NOT EXISTS Slides (
     `id` TEXT PRIMARY KEY,
     `url` TEXT
 );
 
-ALTER TABLE Photos ADD COLUMN `presentation_id` Text REFERENCES Presentations(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE Slides ADD COLUMN `presentation_id` Text REFERENCES Presentations(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 INSERT INTO
-    Photos (`id`, `presentation_id`, `url`)
+    Slides (`id`, `presentation_id`, `url`)
 VALUES
     ("cm28cy64600008zx70fco8avm", 'cm28c6lbu00008zx71m5z3zw2', "pexels-photo-1805164-landscape.jpeg"),
     ("cm28cybhj00008zx7hr9jdsfo", 'cm28c6lbu00008zx71m5z3zw2', "pexels-photo-1851164-landscape.jpeg"),
