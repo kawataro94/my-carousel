@@ -11,6 +11,8 @@ import { Get } from "./schema/presentations/get.schema";
 import { Post } from "./schema/presentations/post.schema";
 import { GetPresentation } from "./schema/presentations/$presentationId/get.schema";
 import { GetPresentationDownload } from "./schema/presentations/$presentationId/download/get.schema";
+import { PostSlidesUpload } from "./schema/presentations/$presentationId/slides/upload/post.schema";
+import { createSlide } from "@api/model/slide.service";
 
 export const routePresentations = new OpenAPIHono();
 
@@ -39,6 +41,41 @@ routePresentations.openapi(GetPresentation, async (c) => {
   const presentation = await getPresentation(DB, { presentationId });
 
   return c.json(presentation, 200);
+});
+
+routePresentations.openapi(PostSlidesUpload, async (c) => {
+  const { presentationId } = c.req.valid("param");
+  const { slides: slideImages } = await c.req.parseBody({ all: true });
+
+  const { DB, R2_BUCKET_MY_CAROUSEL } = env<{
+    DB: D1Database;
+    R2_BUCKET_MY_CAROUSEL: R2Bucket;
+  }>(c);
+
+  const presentation = await getPresentation(DB, { presentationId });
+
+  if (presentation == null) {
+    throw new Error("Presentation not found");
+  }
+
+  for (const image of [slideImages].flat()) {
+    if (typeof image === "string") continue;
+
+    const slide = {
+      id: createId(),
+      presentationId,
+      url: image.name,
+    };
+
+    await createSlide(DB, slide);
+
+    await R2_BUCKET_MY_CAROUSEL.put(
+      `${presentation.name}/${image.name}`,
+      image
+    );
+  }
+
+  return c.json({ message: "ok" }, 201);
 });
 
 routePresentations.openapi(GetPresentationDownload, async (c) => {

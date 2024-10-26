@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { ClientLoaderFunctionArgs, MetaFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 import { PresentationDetail } from "@web/components/feature/presentation/detail";
@@ -12,8 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@web/components/ui/select";
-import React from "react";
 import { VerticalCarousel } from "@web/components/ui/extended/carousel/vertical";
+import { SlideUploader } from "@web/components/feature/presentation/slide-uploader";
 
 export async function clientLoader({ params }: ClientLoaderFunctionArgs) {
   const presentationId = validateCuid(params.presentationId);
@@ -36,7 +37,7 @@ export default function _PresentationDetail() {
     isLoading,
   } = usePresentationFetcher({ presentationId });
 
-  const [orientation, setOrientation] = React.useState("horizontal");
+  const [orientation, setOrientation] = useState("horizontal");
 
   if (error) {
     return <div>Error</div>;
@@ -64,7 +65,9 @@ export default function _PresentationDetail() {
       <div className="m-auto max-w-3xl w-4/5 grid gap-4">
         <PresentationDetail presentation={presentation} />
 
-        {!hasSlides ? null : (
+        <SlideUploader presentation={presentation} />
+
+        {hasSlides && (
           <>
             <div className="flex justify-between">
               <Select

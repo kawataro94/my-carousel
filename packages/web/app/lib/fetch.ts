@@ -23,6 +23,19 @@ export function usePresentationFetcher({
   );
 }
 
+export function uploadSlides({
+  presentationId,
+  formData,
+}: {
+  presentationId: string;
+  formData: FormData;
+}) {
+  return fetch(`${baseUrl}/presentations/${presentationId}/slides/upload`, {
+    method: "POST",
+    body: formData,
+  }).then((res) => res.json());
+}
+
 export function downloadPresentation({
   presentationId,
   fileName,
