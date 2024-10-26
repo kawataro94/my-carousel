@@ -4,7 +4,7 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { PresentationDetail } from "@web/components/feature/presentation/detail";
 import { usePresentationFetcher } from "@web/lib/fetch";
 import { validateCuid } from "@web/lib/zod";
-import { PresentationDownloadButton } from "@web/components/feature/presentation/download-button";
+import { SlideDownloadIcon } from "@web/components/feature/presentation/slide-download-icon";
 import { HorizontalCarousel } from "@web/components/ui/extended/carousel/horizontal";
 import {
   Select,
@@ -69,7 +69,7 @@ export default function _PresentationDetail() {
 
         {hasSlides && (
           <>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-end">
               <Select
                 defaultValue="horizontal"
                 onValueChange={(v) => setOrientation(v)}
@@ -83,7 +83,7 @@ export default function _PresentationDetail() {
                 </SelectContent>
               </Select>
 
-              <PresentationDownloadButton presentation={presentation} />
+              <SlideDownloadIcon presentation={presentation} />
             </div>
 
             {orientation === "horizontal" ? (

@@ -1,7 +1,7 @@
-import { Button } from "@web/components/ui/button";
+import { Download } from "lucide-react";
 import { downloadPresentation } from "@web/lib/fetch";
 
-export function PresentationDownloadButton({
+export function SlideDownloadIcon({
   presentation,
 }: {
   presentation: {
@@ -29,5 +29,5 @@ export function PresentationDownloadButton({
     });
   }
 
-  return <Button onClick={() => download()}>ダウンロード</Button>;
+  return <Download onClick={() => download()} />;
 }
