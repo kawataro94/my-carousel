@@ -12,6 +12,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240529.0",
     "@hono/swagger-ui": "^0.4.1",
+    "prisma": "^5.21.1",
     "wrangler": "^3.80.4"
   }
 }

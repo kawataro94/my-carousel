@@ -1,0 +1,23 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"] // change from default
+}
+
+datasource db {
+  provider = "sqlite" // d1 is sql base database
+  url      = env("DATABASE_URL")
+}
+
+model Presentation {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  Slide Slide[]
+}
+
+model Slide {
+  id             String       @id @default(cuid())
+  presentation   Presentation @relation(fields: [presentationId], references: [id], onDelete: Cascade, onUpdate: Cascade )
+  presentationId String
+  fileName       String       @unique
+}
+

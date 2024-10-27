@@ -11,7 +11,7 @@ export async function getPresentations(
   }
 ): Promise<Omit<Presentation, "fileNames">[]> {
   const { results } = await db
-    .prepare("SELECT * FROM Presentations LIMIT ? OFFSET ?")
+    .prepare("SELECT * FROM Presentation LIMIT ? OFFSET ?")
     .bind(limit, offset)
     .all<Omit<Presentation, "fileNames">>();
 
@@ -27,16 +27,16 @@ export async function getPresentation(
   }
 ): Promise<Presentation | undefined> {
   const { results: results1 } = await db
-    .prepare("SELECT * FROM Presentations WHERE Presentations.id = ?")
+    .prepare("SELECT * FROM Presentation WHERE Presentation.id = ?")
     .bind(presentationId)
     .all<{ id: string; name: string }>();
 
   const { results: results2 } = await db
     .prepare(
-      "SELECT Slides.url FROM Presentations INNER JOIN Slides ON Presentations.id = Slides.presentation_id WHERE Presentations.id = ?"
+      "SELECT Slide.fileName FROM Presentation INNER JOIN Slide ON Presentation.id = Slide.presentationId WHERE Presentation.id = ?"
     )
     .bind(presentationId)
-    .all<{ url: string }>();
+    .all<{ fileName: string }>();
 
   const presentation = results1.at(0);
 
@@ -45,7 +45,7 @@ export async function getPresentation(
   return {
     id: presentation.id,
     name: presentation.name,
-    fileNames: results2 ? results2.map((r) => r.url) : [],
+    fileNames: results2 ? results2.map((r) => r.fileName) : [],
   };
 }
 
@@ -60,7 +60,7 @@ export async function createPresentation(
   }
 ): Promise<void> {
   await db
-    .prepare("INSERT INTO Presentations (id, name) VALUES (?1, ?2)")
+    .prepare("INSERT INTO Presentation (id, name) VALUES (?1, ?2)")
     .bind(id, name)
     .run();
 }

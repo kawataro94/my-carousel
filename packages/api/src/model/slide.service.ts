@@ -3,17 +3,17 @@ export async function createSlide(
   {
     id,
     presentationId,
-    url,
+    fileName,
   }: {
     id: string;
     presentationId: string;
-    url: string;
+    fileName: string;
   }
 ): Promise<void> {
   await db
     .prepare(
-      "INSERT INTO Slides (id, presentation_id, url) VALUES (?1, ?2, ?3)"
+      "INSERT INTO Slide (id, presentationId, fileName) VALUES (?1, ?2, ?3)"
     )
-    .bind(id, presentationId, url)
+    .bind(id, presentationId, fileName)
     .run();
 }

@@ -64,7 +64,7 @@ routePresentations.openapi(PostSlidesUpload, async (c) => {
     const slide = {
       id: createId(),
       presentationId,
-      url: image.name,
+      fileName: image.name,
     };
 
     await createSlide(DB, slide);
