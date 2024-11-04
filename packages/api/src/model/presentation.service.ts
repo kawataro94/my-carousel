@@ -1,3 +1,6 @@
+import { PrismaClient } from "@prisma/client";
+import { PrismaD1 } from "@prisma/adapter-d1";
+
 export type Presentation = { id: string; name: string; fileNames: string[] };
 
 export async function getPresentations(
@@ -10,12 +13,14 @@ export async function getPresentations(
     offset?: number;
   }
 ): Promise<Omit<Presentation, "fileNames">[]> {
-  const { results } = await db
-    .prepare("SELECT * FROM Presentation LIMIT ? OFFSET ?")
-    .bind(limit, offset)
-    .all<Omit<Presentation, "fileNames">>();
+  const adapter = new PrismaD1(db);
+  const prisma = new PrismaClient({ adapter });
 
-  return results;
+  return await prisma.presentation.findMany({
+    take: limit,
+    skip: offset,
+    orderBy: { id: "desc" },
+  });
 }
 
 export async function getPresentation(
@@ -26,26 +31,22 @@ export async function getPresentation(
     presentationId: string;
   }
 ): Promise<Presentation | undefined> {
-  const { results: results1 } = await db
-    .prepare("SELECT * FROM Presentation WHERE Presentation.id = ?")
-    .bind(presentationId)
-    .all<{ id: string; name: string }>();
+  const adapter = new PrismaD1(db);
+  const prisma = new PrismaClient({ adapter });
 
-  const { results: results2 } = await db
-    .prepare(
-      "SELECT Slide.fileName FROM Presentation INNER JOIN Slide ON Presentation.id = Slide.presentationId WHERE Presentation.id = ?"
-    )
-    .bind(presentationId)
-    .all<{ fileName: string }>();
-
-  const presentation = results1.at(0);
+  const presentation = await prisma.presentation.findUnique({
+    where: { id: presentationId },
+    include: {
+      Slide: true,
+    },
+  });
 
   if (presentation == null) return undefined;
 
   return {
     id: presentation.id,
     name: presentation.name,
-    fileNames: results2 ? results2.map((r) => r.fileName) : [],
+    fileNames: presentation.Slide.map((s) => s.fileName),
   };
 }
 
@@ -59,8 +60,10 @@ export async function createPresentation(
     name: string;
   }
 ): Promise<void> {
-  await db
-    .prepare("INSERT INTO Presentation (id, name) VALUES (?1, ?2)")
-    .bind(id, name)
-    .run();
+  const adapter = new PrismaD1(db);
+  const prisma = new PrismaClient({ adapter });
+
+  await prisma.presentation.create({
+    data: { id, name },
+  });
 }

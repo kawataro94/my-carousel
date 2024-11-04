@@ -1,19 +1,18 @@
-export async function createSlide(
+import { PrismaClient } from "@prisma/client";
+import { PrismaD1 } from "@prisma/adapter-d1";
+
+export async function createSlides(
   db: D1Database,
-  {
-    id,
-    presentationId,
-    fileName,
-  }: {
+  slides: {
     id: string;
     presentationId: string;
     fileName: string;
-  }
+  }[]
 ): Promise<void> {
-  await db
-    .prepare(
-      "INSERT INTO Slide (id, presentationId, fileName) VALUES (?1, ?2, ?3)"
-    )
-    .bind(id, presentationId, fileName)
-    .run();
+  const adapter = new PrismaD1(db);
+  const prisma = new PrismaClient({ adapter });
+
+  await prisma.slide.createMany({
+    data: slides,
+  });
 }

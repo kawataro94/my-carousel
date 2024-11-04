@@ -12,7 +12,7 @@ import { Post } from "./schema/presentations/post.schema";
 import { GetPresentation } from "./schema/presentations/$presentationId/get.schema";
 import { GetPresentationDownload } from "./schema/presentations/$presentationId/download/get.schema";
 import { PostSlidesUpload } from "./schema/presentations/$presentationId/slides/upload/post.schema";
-import { createSlide } from "@api/model/slide.service";
+import { createSlides } from "@api/model/slide.service";
 
 export const routePresentations = new OpenAPIHono();
 
@@ -58,22 +58,23 @@ routePresentations.openapi(PostSlidesUpload, async (c) => {
     throw new Error("Presentation not found");
   }
 
+  let slides = [];
   for (const image of [slideImages].flat()) {
     if (typeof image === "string") continue;
 
-    const slide = {
+    slides.push({
       id: createId(),
       presentationId,
       fileName: image.name,
-    };
-
-    await createSlide(DB, slide);
+    });
 
     await R2_BUCKET_MY_CAROUSEL.put(
       `${presentation.name}/${image.name}`,
       image
     );
   }
+
+  await createSlides(DB, slides);
 
   return c.json({ message: "ok" }, 201);
 });
