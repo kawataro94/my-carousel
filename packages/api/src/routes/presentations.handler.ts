@@ -13,6 +13,7 @@ import { GetPresentation } from "./schema/presentations/$presentationId/get.sche
 import { GetPresentationDownload } from "./schema/presentations/$presentationId/download/get.schema";
 import { PostSlidesUpload } from "./schema/presentations/$presentationId/slides/upload/post.schema";
 import { createSlides } from "@api/model/slide.service";
+import { multipartUpload } from "@api/lib/r2/multipart-upload";
 
 export const routePresentations = new OpenAPIHono();
 
@@ -68,7 +69,8 @@ routePresentations.openapi(PostSlidesUpload, async (c) => {
       fileName: image.name,
     });
 
-    await R2_BUCKET_MY_CAROUSEL.put(
+    await multipartUpload(
+      R2_BUCKET_MY_CAROUSEL,
       `${presentation.name}/${image.name}`,
       image
     );
