@@ -18,24 +18,24 @@ export function SlideUploader({
     <FormProvider {...form}>
       <Form
         className="flex gap-4"
-        onSubmit={({ data }) => {
+        onSubmit={async ({ data }) => {
           const formData = new FormData();
           for (const file of data.files) {
             formData.append("slides", file);
           }
 
-          uploadSlides({ presentationId: presentation.id, formData });
-        }}
-        onSuccess={() => {
-          toast({
-            description: "Success",
-          });
-        }}
-        onError={() => {
-          toast({
-            variant: "destructive",
-            description: "Error",
-          });
+          try {
+            await uploadSlides({ presentationId: presentation.id, formData });
+
+            toast({
+              description: "Success",
+            });
+          } catch (error) {
+            toast({
+              variant: "destructive",
+              description: "Error",
+            });
+          }
         }}
       >
         <FormField
